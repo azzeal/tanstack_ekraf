@@ -23,9 +23,11 @@ export default function BetterAuthHeader() {
 				<button
 					type="button"
 					onClick={() => {
-						void authClient.signOut();
+						void authClient.signOut().then(() => {
+							window.location.href = "/login";
+						});
 					}}
-					className="flex-1 h-9 px-4 text-sm font-medium bg-white dark:bg-neutral-900 text-neutral-900 dark:text-neutral-50 border border-neutral-300 dark:border-neutral-700 hover:bg-neutral-50 dark:hover:bg-neutral-800 transition-colors"
+					className="h-9 rounded-xl border border-[var(--chip-line)] bg-[var(--chip-bg)] px-4 text-sm font-semibold text-[var(--sea-ink)] transition hover:bg-[var(--link-bg-hover)]"
 				>
 					Sign out
 				</button>
@@ -35,8 +37,8 @@ export default function BetterAuthHeader() {
 
 	return (
 		<Link
-			to="/demo/better-auth"
-			className="h-9 px-4 text-sm font-medium bg-white dark:bg-neutral-900 text-neutral-900 dark:text-neutral-50 border border-neutral-300 dark:border-neutral-700 hover:bg-neutral-50 dark:hover:bg-neutral-800 transition-colors inline-flex items-center"
+			to="/login"
+			className="inline-flex h-9 items-center rounded-xl border border-[var(--chip-line)] bg-[var(--chip-bg)] px-4 text-sm font-semibold text-[var(--sea-ink)] no-underline transition hover:bg-[var(--link-bg-hover)]"
 		>
 			Sign in
 		</Link>

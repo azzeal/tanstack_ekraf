@@ -8,6 +8,8 @@ export interface Product {
 	description: string;
 	price: number;
 	stock: number;
+	/** Optional product photo, stored as a resized (max 512 px) data URL. */
+	image?: string;
 	createdAt: string;
 	updatedAt: string;
 }
@@ -52,6 +54,10 @@ export const db = memoryDb;
 
 export const SEED_ADMIN_EMAIL = "admin@example.com";
 export const SEED_ADMIN_PASSWORD = "admin12345";
+
+/** Non-admin demo account, so the Users page and role modal have something to act on. */
+export const SEED_USER_EMAIL = "editor@example.com";
+export const SEED_USER_PASSWORD = "editor12345";
 
 export function getUserRole(userId: string): Role {
 	return db.userRole.find((r) => r.userId === userId)?.role ?? "user";

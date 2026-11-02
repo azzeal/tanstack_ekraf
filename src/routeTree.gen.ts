@@ -10,16 +10,12 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as AboutRouteImport } from './routes/about'
-import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as AdminRouteImport } from './routes/_admin'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as SetupRouteImport } from './routes/setup'
-import { Route as DemoBetterAuthRouteImport } from './routes/demo/better-auth'
-import { Route as ProductsIndexRouteImport } from './routes/products/index'
-import { Route as ProductsProductIdRouteImport } from './routes/products/$productId'
-import { Route as ProductsNewRouteImport } from './routes/products/new'
-import { Route as UsersIndexRouteImport } from './routes/users/index'
-import { Route as UsersUserIdRouteImport } from './routes/users/$userId'
+import { Route as AdminDashboardRouteImport } from './routes/_admin/dashboard'
+import { Route as AdminProductsIndexRouteImport } from './routes/_admin/products/index'
+import { Route as AdminUsersIndexRouteImport } from './routes/_admin/users/index'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
 
 const IndexRoute = IndexRouteImport.update({
@@ -27,14 +23,8 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AboutRoute = AboutRouteImport.update({
-  id: '/about',
-  path: '/about',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DashboardRoute = DashboardRouteImport.update({
-  id: '/dashboard',
-  path: '/dashboard',
+const AdminRoute = AdminRouteImport.update({
+  id: '/_admin',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LoginRoute = LoginRouteImport.update({
@@ -47,35 +37,20 @@ const SetupRoute = SetupRouteImport.update({
   path: '/setup',
   getParentRoute: () => rootRouteImport,
 } as any)
-const DemoBetterAuthRoute = DemoBetterAuthRouteImport.update({
-  id: '/demo/better-auth',
-  path: '/demo/better-auth',
-  getParentRoute: () => rootRouteImport,
+const AdminDashboardRoute = AdminDashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => AdminRoute,
 } as any)
-const ProductsIndexRoute = ProductsIndexRouteImport.update({
+const AdminProductsIndexRoute = AdminProductsIndexRouteImport.update({
   id: '/products/',
   path: '/products/',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => AdminRoute,
 } as any)
-const ProductsProductIdRoute = ProductsProductIdRouteImport.update({
-  id: '/products/$productId',
-  path: '/products/$productId',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ProductsNewRoute = ProductsNewRouteImport.update({
-  id: '/products/new',
-  path: '/products/new',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const UsersIndexRoute = UsersIndexRouteImport.update({
+const AdminUsersIndexRoute = AdminUsersIndexRouteImport.update({
   id: '/users/',
   path: '/users/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const UsersUserIdRoute = UsersUserIdRouteImport.update({
-  id: '/users/$userId',
-  path: '/users/$userId',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => AdminRoute,
 } as any)
 const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
   id: '/api/auth/$',
@@ -85,104 +60,69 @@ const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/about': typeof AboutRoute
-  '/dashboard': typeof DashboardRoute
   '/login': typeof LoginRoute
   '/setup': typeof SetupRoute
-  '/demo/better-auth': typeof DemoBetterAuthRoute
-  '/products/$productId': typeof ProductsProductIdRoute
-  '/products/new': typeof ProductsNewRoute
-  '/users/$userId': typeof UsersUserIdRoute
-  '/products/': typeof ProductsIndexRoute
-  '/users/': typeof UsersIndexRoute
+  '/dashboard': typeof AdminDashboardRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
+  '/products/': typeof AdminProductsIndexRoute
+  '/users/': typeof AdminUsersIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/about': typeof AboutRoute
-  '/dashboard': typeof DashboardRoute
   '/login': typeof LoginRoute
   '/setup': typeof SetupRoute
-  '/demo/better-auth': typeof DemoBetterAuthRoute
-  '/products/$productId': typeof ProductsProductIdRoute
-  '/products/new': typeof ProductsNewRoute
-  '/users/$userId': typeof UsersUserIdRoute
-  '/products': typeof ProductsIndexRoute
-  '/users': typeof UsersIndexRoute
+  '/dashboard': typeof AdminDashboardRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
+  '/products': typeof AdminProductsIndexRoute
+  '/users': typeof AdminUsersIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/about': typeof AboutRoute
-  '/dashboard': typeof DashboardRoute
+  '/_admin': typeof AdminRouteWithChildren
   '/login': typeof LoginRoute
   '/setup': typeof SetupRoute
-  '/demo/better-auth': typeof DemoBetterAuthRoute
-  '/products/$productId': typeof ProductsProductIdRoute
-  '/products/new': typeof ProductsNewRoute
-  '/users/$userId': typeof UsersUserIdRoute
-  '/products/': typeof ProductsIndexRoute
-  '/users/': typeof UsersIndexRoute
+  '/_admin/dashboard': typeof AdminDashboardRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
+  '/_admin/products/': typeof AdminProductsIndexRoute
+  '/_admin/users/': typeof AdminUsersIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/about'
-    | '/dashboard'
     | '/login'
     | '/setup'
-    | '/demo/better-auth'
-    | '/products/$productId'
-    | '/products/new'
-    | '/users/$userId'
+    | '/dashboard'
+    | '/api/auth/$'
     | '/products/'
     | '/users/'
-    | '/api/auth/$'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/about'
-    | '/dashboard'
     | '/login'
     | '/setup'
-    | '/demo/better-auth'
-    | '/products/$productId'
-    | '/products/new'
-    | '/users/$userId'
+    | '/dashboard'
+    | '/api/auth/$'
     | '/products'
     | '/users'
-    | '/api/auth/$'
   id:
     | '__root__'
     | '/'
-    | '/about'
-    | '/dashboard'
+    | '/_admin'
     | '/login'
     | '/setup'
-    | '/demo/better-auth'
-    | '/products/$productId'
-    | '/products/new'
-    | '/users/$userId'
-    | '/products/'
-    | '/users/'
+    | '/_admin/dashboard'
     | '/api/auth/$'
+    | '/_admin/products/'
+    | '/_admin/users/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  AboutRoute: typeof AboutRoute
-  DashboardRoute: typeof DashboardRoute
+  AdminRoute: typeof AdminRouteWithChildren
   LoginRoute: typeof LoginRoute
   SetupRoute: typeof SetupRoute
-  DemoBetterAuthRoute: typeof DemoBetterAuthRoute
-  ProductsProductIdRoute: typeof ProductsProductIdRoute
-  ProductsNewRoute: typeof ProductsNewRoute
-  UsersUserIdRoute: typeof UsersUserIdRoute
-  ProductsIndexRoute: typeof ProductsIndexRoute
-  UsersIndexRoute: typeof UsersIndexRoute
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute
 }
 
@@ -195,18 +135,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/about': {
-      id: '/about'
-      path: '/about'
-      fullPath: '/about'
-      preLoaderRoute: typeof AboutRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/dashboard': {
-      id: '/dashboard'
-      path: '/dashboard'
-      fullPath: '/dashboard'
-      preLoaderRoute: typeof DashboardRouteImport
+    '/_admin': {
+      id: '/_admin'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AdminRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/login': {
@@ -223,47 +156,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SetupRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/demo/better-auth': {
-      id: '/demo/better-auth'
-      path: '/demo/better-auth'
-      fullPath: '/demo/better-auth'
-      preLoaderRoute: typeof DemoBetterAuthRouteImport
-      parentRoute: typeof rootRouteImport
+    '/_admin/dashboard': {
+      id: '/_admin/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof AdminDashboardRouteImport
+      parentRoute: typeof AdminRoute
     }
-    '/products/': {
-      id: '/products/'
+    '/_admin/products/': {
+      id: '/_admin/products/'
       path: '/products'
       fullPath: '/products/'
-      preLoaderRoute: typeof ProductsIndexRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof AdminProductsIndexRouteImport
+      parentRoute: typeof AdminRoute
     }
-    '/products/$productId': {
-      id: '/products/$productId'
-      path: '/products/$productId'
-      fullPath: '/products/$productId'
-      preLoaderRoute: typeof ProductsProductIdRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/products/new': {
-      id: '/products/new'
-      path: '/products/new'
-      fullPath: '/products/new'
-      preLoaderRoute: typeof ProductsNewRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/users/': {
-      id: '/users/'
+    '/_admin/users/': {
+      id: '/_admin/users/'
       path: '/users'
       fullPath: '/users/'
-      preLoaderRoute: typeof UsersIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/users/$userId': {
-      id: '/users/$userId'
-      path: '/users/$userId'
-      fullPath: '/users/$userId'
-      preLoaderRoute: typeof UsersUserIdRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof AdminUsersIndexRouteImport
+      parentRoute: typeof AdminRoute
     }
     '/api/auth/$': {
       id: '/api/auth/$'
@@ -275,18 +187,25 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface AdminRouteChildren {
+  AdminDashboardRoute: typeof AdminDashboardRoute
+  AdminProductsIndexRoute: typeof AdminProductsIndexRoute
+  AdminUsersIndexRoute: typeof AdminUsersIndexRoute
+}
+
+const AdminRouteChildren: AdminRouteChildren = {
+  AdminDashboardRoute: AdminDashboardRoute,
+  AdminProductsIndexRoute: AdminProductsIndexRoute,
+  AdminUsersIndexRoute: AdminUsersIndexRoute,
+}
+
+const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  AboutRoute: AboutRoute,
-  DashboardRoute: DashboardRoute,
+  AdminRoute: AdminRouteWithChildren,
   LoginRoute: LoginRoute,
   SetupRoute: SetupRoute,
-  DemoBetterAuthRoute: DemoBetterAuthRoute,
-  ProductsProductIdRoute: ProductsProductIdRoute,
-  ProductsNewRoute: ProductsNewRoute,
-  UsersUserIdRoute: UsersUserIdRoute,
-  ProductsIndexRoute: ProductsIndexRoute,
-  UsersIndexRoute: UsersIndexRoute,
   ApiAuthSplatRoute: ApiAuthSplatRoute,
 }
 export const routeTree = rootRouteImport

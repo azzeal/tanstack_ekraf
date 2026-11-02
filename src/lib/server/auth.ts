@@ -1,7 +1,14 @@
 import { createServerFn } from "@tanstack/react-start";
 
 import { auth } from "@/lib/auth";
-import { SEED_ADMIN_EMAIL, SEED_ADMIN_PASSWORD, db } from "@/lib/db";
+import {
+	SEED_ADMIN_EMAIL,
+	SEED_ADMIN_PASSWORD,
+	SEED_USER_EMAIL,
+	SEED_USER_PASSWORD,
+	db,
+	getUserRole,
+} from "@/lib/db";
 import { getCurrentSession } from "@/lib/session";
 
 /**
@@ -11,6 +18,22 @@ import { getCurrentSession } from "@/lib/session";
  */
 export const getServerSession = createServerFn({ method: "GET" }).handler(async () => {
 	return getCurrentSession();
+});
+
+/**
+ * Session + role in one non-throwing call.
+ *
+ * Route guards use this instead of calling admin-only server functions: a
+ * thrown error inside a GET server function never settles on the client, so a
+ * `requireAdmin()` getter would leave the page on a loading skeleton forever
+ * instead of redirecting or showing an error.
+ */
+export const getViewer = createServerFn({ method: "GET" }).handler(async () => {
+	const { session, user } = await getCurrentSession();
+	if (!session || !user) {
+		return { session: null, user: null, role: null };
+	}
+	return { session, user, role: getUserRole(user.id) };
 });
 
 /**
@@ -46,6 +69,17 @@ export const seedAdmin = createServerFn({ method: "POST" }).handler(async () => 
 			db.userRole.push({ userId: adminUser.id, role: "admin" });
 		}
 	}
+
+	// A plain (non-admin) account makes the Users page and the role-change
+	// modal demonstrable on a fresh clone. No `userRole` row means role "user".
+	await auth.api.signUpEmail({
+		body: {
+			email: SEED_USER_EMAIL,
+			password: SEED_USER_PASSWORD,
+			name: "Editor Demo",
+		},
+		headers: new Headers(),
+	});
 
 	const now = new Date().toISOString();
 	const products = [
